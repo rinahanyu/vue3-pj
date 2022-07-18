@@ -1,30 +1,12 @@
 <script setup lang='ts'>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
+import { SetTodoKey } from '../../store/Key'
 
-type Todo = {
-  id: number
-  title: string
-  description: string
-  limitDate: Date | null
-  emergency: number
-  importance: number
-}
-
-const now = new Date()
-const defaultTodo = [
-  {
-    id: 0,
-    title: 'start',
-    description: 'todo start',
-    limitDate:  now,
-    emergency: 3,
-    importance: 3
-  }
-]
-const todos = ref<Todo[]>(defaultTodo)
+const store = inject(SetTodoKey)
+if (!store) { throw new Error('injection error')}
+const { state, add } = store
 const addTodo = () => {
-  console.log('add enter')
-  const length = todos.value.length
+  const length = state.value.length
   const newTodo = {
     id: length + 1,
     title: title.value,
@@ -33,7 +15,7 @@ const addTodo = () => {
     emergency: emergency.value || 0,
     importance: importance.value || 0,
   }
-  todos.value.push(newTodo)
+  add(newTodo)
 }
 
 const title = ref<string>('')
