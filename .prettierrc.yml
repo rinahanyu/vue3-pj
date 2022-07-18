@@ -1,4 +1,5 @@
 printWidth: 80
 tabWidth: 2
-singleQuote: true
+singleQuote: true # 引用符にはシングルクォート
+jsxSingleQuote: true # scriptタグ内ではシングルクォート
 semi: false
