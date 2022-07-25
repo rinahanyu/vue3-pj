@@ -11,10 +11,11 @@ type Todo = {
 }
 
 const now = new Date()
+// const now =  date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() これだとdate関数じゃなくなるからだめ
 const defaultTodos = [
   {
     id: 0,
-    title: 'start',
+    title: 'start todo!',
     description: 'todo start',
     limitDate: now,
     emergency: 3,
@@ -22,10 +23,22 @@ const defaultTodos = [
   },
 ]
 
+// localStrageにstrageの値を保存（リロードしても値を保持できるように）
+const setList = (state: Array[]) => {
+  // localStorage.removeItem('state_list')
+  localStorage.setItem('state_list', JSON.stringify(state))
+}
+
 export const setTodos = (() => {
-  const state = ref<Todo[]>(defaultTodos)
+  // 現在のlocalStrageに入っている値取得
+  const now_state = localStorage.getItem('state_list')
+  // 値が入っていなければ、defaultを定義
+  const state = !now_state ? ref<Todo[]>(defaultTodos) : ref<Todo[]>(Object.values(JSON.parse(now_state)))
+  setList(state.value)
+
   const add = (newTodo: Todo) => {
     state.value.push(newTodo)
+    setList(state.value)
   }
   return { state, add }
 })()

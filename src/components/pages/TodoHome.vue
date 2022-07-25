@@ -16,6 +16,10 @@ const addTodo = () => {
     importance: importance.value || 0,
   }
   add(newTodo)
+  // setList()
+}
+const setList = () => {
+  localStorage.setItem('list', JSON.stringify(state))
 }
 
 const title = ref<string>('')
@@ -51,14 +55,14 @@ const rates = [1,2,3,4,5]
       <div class='form_frame'>
         <span style='font-weight: bold; margin-right: 10px'>emergency</span>
         <span  v-for='rate in rates' :key='rate'>
-          <input name='emergency' type='radio' v-model='emergency'>
+          <input name='emergency' type='radio' v-model='emergency' v-bind:value='rate'>
           <label for='emergency'>{{ rate }}</label>
         </span>
       </div>
       <div class='form_frame'>
         <span style='font-weight: bold; margin-right: 10px'>importance</span>
         <span  v-for='rate in rates' :key='rate'>
-          <input name='importance' type='radio' v-model='importance'>
+          <input name='importance' type='radio' v-model='importance' v-bind:value='rate'>
           <label for='importance'>{{ rate }}</label>
         </span>
       </div>
