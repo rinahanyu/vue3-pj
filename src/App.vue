@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import MainHeader from './components/globals/MainHeader.vue'
 import MainFooter from './components/globals/MainFooter.vue'
 import { setTodos } from './store/SetTodos'

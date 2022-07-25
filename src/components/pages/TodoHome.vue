@@ -1,9 +1,11 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { inject, ref } from 'vue'
 import { SetTodoKey } from '../../store/Key'
 
 const store = inject(SetTodoKey)
-if (!store) { throw new Error('injection error')}
+if (!store) {
+  throw new Error('injection error')
+}
 const { state, add } = store
 const addTodo = () => {
   const length = state.value.length
@@ -28,48 +30,82 @@ const limitDate = ref<Date>()
 const emergency = ref<number>(0)
 const importance = ref<number>(0)
 
-const rates = [1,2,3,4,5]
+const rates = [1, 2, 3, 4, 5]
 </script>
 
 <template>
-  <div class='container'>
+  <div class="container">
     <h1>Welcome Todo App</h1>
-    <div class='form_container'>
-      <div class='form_frame'>
-        <label for='title'>title</label>
-        <input v-model='title' name='title' type='text' />
-      </div>
-      <div class='form_frame'>
-        <label for='description'>description</label>
+    <div class="form_container">
+      <div class="form_frame">
+        <label for="title">title</label>
         <input
-          v-model='description'
-          name='description'
-          type='text'
-          style='height: 50px'
-        />
+          v-model="title"
+          name="title"
+          type="text"
+        >
       </div>
-      <div class='form_frame'>
-        <label for='limitDate'>limitDate</label>
-        <input v-model='limitDate' name='limitDate' type='date' />
+      <div class="form_frame">
+        <label for="description">description</label>
+        <input
+          v-model="description"
+          name="description"
+          type="text"
+          style="height: 50px"
+        >
       </div>
-      <div class='form_frame'>
-        <span style='font-weight: bold; margin-right: 10px'>emergency</span>
-        <span  v-for='rate in rates' :key='rate'>
-          <input name='emergency' type='radio' v-model='emergency' v-bind:value='rate'>
-          <label for='emergency'>{{ rate }}</label>
+      <div class="form_frame">
+        <label for="limitDate">limitDate</label>
+        <input
+          v-model="limitDate"
+          name="limitDate"
+          type="date"
+        >
+      </div>
+      <div class="form_frame">
+        <span style="font-weight: bold; margin-right: 10px">emergency</span>
+        <span
+          v-for="rate in rates"
+          :key="rate"
+        >
+          <input
+            v-model="emergency"
+            name="emergency"
+            type="radio"
+            :value="rate"
+          >
+          <label for="emergency">{{ rate }}</label>
         </span>
       </div>
-      <div class='form_frame'>
-        <span style='font-weight: bold; margin-right: 10px'>importance</span>
-        <span  v-for='rate in rates' :key='rate'>
-          <input name='importance' type='radio' v-model='importance' v-bind:value='rate'>
-          <label for='importance'>{{ rate }}</label>
+      <div class="form_frame">
+        <span style="font-weight: bold; margin-right: 10px">importance</span>
+        <span
+          v-for="rate in rates"
+          :key="rate"
+        >
+          <input
+            v-model="importance"
+            name="importance"
+            type="radio"
+            :value="rate"
+          >
+          <label for="importance">{{ rate }}</label>
         </span>
       </div>
-      <div class='form_button'>
-        <button class='add_button' @click='addTodo'>add OK?</button>
-        <button class='list_link_button'>
-          <router-link to='/list' style='color: white'>go list?</router-link>
+      <div class="form_button">
+        <button
+          class="add_button"
+          @click="addTodo"
+        >
+          add OK?
+        </button>
+        <button class="list_link_button">
+          <router-link
+            to="/list"
+            style="color: white"
+          >
+            go list?
+          </router-link>
         </button>
       </div>
     </div>

@@ -33,7 +33,9 @@ export const setTodos = (() => {
   // 現在のlocalStrageに入っている値取得
   const now_state = localStorage.getItem('state_list')
   // 値が入っていなければ、defaultを定義
-  const state = !now_state ? ref<Todo[]>(defaultTodos) : ref<Todo[]>(Object.values(JSON.parse(now_state)))
+  const state = !now_state
+    ? ref<Todo[]>(defaultTodos)
+    : ref<Todo[]>(Object.values(JSON.parse(now_state)))
   setList(state.value)
 
   const add = (newTodo: Todo) => {
