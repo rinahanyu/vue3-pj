@@ -9,7 +9,7 @@ defineProps<{
 
 const store = useStore()
 const deleteTodo = (index: number, title: string) => {
-  store.dispatch('delete', {index, title})
+  store.dispatch('delete', { index, title })
 }
 
 // const limitDateFormat = (limitDateorigin: Date) => {
@@ -22,7 +22,12 @@ const deleteTodo = (index: number, title: string) => {
     <div class="list_card">
       <span>{{ title }} / </span>
       <span>{{ limitDate }}</span>
-      <button class="delete_btn" @click="deleteTodo(index, title)">delete?</button>
+      <button
+        class="delete_btn"
+        @click="deleteTodo(index, title)"
+      >
+        delete?
+      </button>
     </div>
   </div>
 </template>
