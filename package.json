@@ -12,6 +12,7 @@
     "fix": "yarn format && yarn lint"
   },
   "dependencies": {
+    "typed-vuex": "^0.3.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2",
     "vuex": "^4.0.2"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // import { defineProps } from 'vue'; setup内で利用できるコンパイラマクロのためimport不要
 defineProps<{
-  id: number
   title: string
   limitDate: Date | null
 }>()

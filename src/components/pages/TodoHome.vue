@@ -1,14 +1,35 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
-import { SetTodoKey } from '../../store/Key'
+// ------provider/injectionでの場合------
+// import { SetTodoKey } from '../../store/Key'
+// const store = inject(SetTodoKey)
+// if (!store) {
+//   throw new Error('injection error')
+// }
+// const { state, add } = store
+// const addTodo = () => {
+//   const length = state.value.length
+//   const newTodo = {
+//     id: length + 1,
+//     title: title.value,
+//     description: description.value,
+//     limitDate: limitDate.value || null,
+//     emergency: emergency.value || 0,
+//     importance: importance.value || 0,
+//   }
+//   add(newTodo)
+//   // setList()
+// }
+// const setList = () => {
+//   localStorage.setItem('list', JSON.stringify(state))
+// }
 
-const store = inject(SetTodoKey)
-if (!store) {
-  throw new Error('injection error')
-}
-const { state, add } = store
+// ------vuexでの場合------
+import { useStore } from 'vuex'
+const store = useStore()
 const addTodo = () => {
-  const length = state.value.length
+  // const length = state.value.length
+  const length = store.state.todos.length
   const newTodo = {
     id: length + 1,
     title: title.value,
@@ -17,12 +38,12 @@ const addTodo = () => {
     emergency: emergency.value || 0,
     importance: importance.value || 0,
   }
-  add(newTodo)
-  // setList()
+  // add(newTodo)
+  store.dispatch('add', newTodo)
 }
-const setList = () => {
-  localStorage.setItem('list', JSON.stringify(state))
-}
+// const setList = () => {
+//   localStorage.setItem('list', JSON.stringify(state))
+// }
 
 const title = ref<string>('')
 const description = ref<string>('')
