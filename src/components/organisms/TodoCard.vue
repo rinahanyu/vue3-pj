@@ -9,6 +9,10 @@ defineProps<{
 
 const store = useStore()
 const deleteTodo = (index: number, title: string) => {
+  if (index < 0) {
+    alert('エラーが発生しました。再度deleteボタンを押してください。')
+    return
+  }
   store.dispatch('delete', { index, title })
 }
 

@@ -17,7 +17,7 @@ const beforeAddValidationMethod = async(newTodo: Todo) => {
 }
 
 // delete裏側処理のバリデーション
-const beforeDeleteValidationMethod =async (id: number, title: string) => {
+const beforeDeleteValidationMethod = async (id: number, title: string) => {
   if (id < 0) {
     return false
   } else {

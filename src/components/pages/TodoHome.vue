@@ -30,6 +30,10 @@ const store = useStore()
 const addTodo = () => {
   // const length = state.value.length
   const length = store.state.id_increment
+  if (title.value === '' || limitDate.value === null || emergency.value === 0 || importance.value === 0) {
+    alert('必要事項が入力されていません。入力内容を再度確認してください。')
+    return
+  }
   const newTodo = {
     id: length + 1,
     title: title.value,
@@ -39,7 +43,21 @@ const addTodo = () => {
     importance: importance.value || 0,
   }
   // add(newTodo)
-  store.dispatch('add', newTodo)
+  store.dispatch('add', newTodo
+  ).then((response: boolean) => {
+    if(response) {
+      alert('保存に成功しました。')
+      // 初期値に全て戻す
+      title.value = ''
+      description.value = ''
+      limitDate.value = undefined
+      emergency.value = 0
+      importance.value = 0
+    } else {
+      alert('保存に失敗しました。')
+    }
+  })
+
 }
 // const setList = () => {
 //   localStorage.setItem('list', JSON.stringify(state))
