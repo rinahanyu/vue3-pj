@@ -29,7 +29,7 @@ import { useStore } from 'vuex'
 const store = useStore()
 const addTodo = () => {
   // const length = state.value.length
-  const length = store.state.todos.length
+  const length = store.state.id_increment
   const newTodo = {
     id: length + 1,
     title: title.value,

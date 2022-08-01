@@ -24,11 +24,12 @@ const store = useStore()
     <h1>Todo List</h1>
     保存処理できるようになったら対応！（（済）配列に追加する簡単な保存、firestoreへの保存、（済）localstrageへの保存）
     <div
-      v-for="todo in store.state.todos"
+      v-for="(todo, index) in store.state.todos"
       :key="todo.id"
       class="list"
     >
       <TodoCard
+        :index="index"
         :title="todo.title"
         :limit-date="todo.limitDate"
       />

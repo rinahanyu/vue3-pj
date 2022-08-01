@@ -14,3 +14,8 @@ export interface Todo {
   emergency: number
   importance: number
 }
+
+export interface deleteParam {
+  index: number
+  title: string
+}
