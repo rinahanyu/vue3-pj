@@ -15,23 +15,19 @@ const deleteTodo = (index: number, title: string) => {
   }
   store.dispatch('delete', { index, title })
 }
-
-// const limitDateFormat = (limitDateorigin: Date) => {
-//   limitDate = limitDateorigin.getFullYear() + "-" + (limitDateorigin.getMonth() + 1) + "-" + limitDateorigin.getDate()
-// }
 </script>
 
 <template>
   <div class="list">
-    <div class="list_card">
+    <div class="list_card pa-2">
       <span>{{ title }} / </span>
       <span>{{ limitDate }}</span>
-      <button
-        class="delete_btn"
+      <v-btn
+        class="delete_btn pa-1"
         @click="deleteTodo(index, title)"
       >
         delete?
-      </button>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -41,11 +37,9 @@ const deleteTodo = (index: number, title: string) => {
   background-color: rgb(235, 237, 237);
   width: 550px;
   margin: 10px auto;
-  padding: 5px;
 }
 .delete_btn {
   float: right;
-  padding: 4px;
   background-color: rgb(233, 136, 136);
   color: white;
   font-size: 12px;

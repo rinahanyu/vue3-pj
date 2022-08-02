@@ -76,15 +76,16 @@ const rates = [1, 2, 3, 4, 5]
 </script>
 
 <template>
-  <div class="container">
+  <div class="container mt-16">
     <h1>Welcome Todo App</h1>
-    <div class="form_container">
+    <div class="form_container mt-8">
       <div class="form_frame">
         <label for="title">title</label>
         <input
           v-model="title"
           name="title"
           type="text"
+          style="outline: solid 1px gray;"
         >
       </div>
       <div class="form_frame">
@@ -93,7 +94,7 @@ const rates = [1, 2, 3, 4, 5]
           v-model="description"
           name="description"
           type="text"
-          style="height: 50px"
+          style="height: 50px; outline: solid 1px gray;"
         >
       </div>
       <div class="form_frame">
@@ -102,6 +103,7 @@ const rates = [1, 2, 3, 4, 5]
           v-model="limitDate"
           name="limitDate"
           type="date"
+          style="outline: solid 1px gray;"
         >
       </div>
       <div class="form_frame">
@@ -134,21 +136,21 @@ const rates = [1, 2, 3, 4, 5]
           <label for="importance">{{ rate }}</label>
         </span>
       </div>
-      <div class="form_button">
-        <button
-          class="add_button"
+      <div class="form_button mt-5">
+        <v-btn
+          class="add_button my-20 mx-5 pa-1"
           @click="addTodo"
         >
           add OK?
-        </button>
-        <button class="list_link_button">
+        </v-btn>
+        <v-btn class="list_link_button my-20 mx-5 pa-1">
           <router-link
             to="/list"
             style="color: white"
           >
             go list?
           </router-link>
-        </button>
+        </v-btn>
       </div>
     </div>
   </div>
@@ -157,23 +159,21 @@ const rates = [1, 2, 3, 4, 5]
 <style scoped>
 .add_button {
   background-color: rgb(16, 87, 38);
-  margin: 20px 5px;
+  border-radius: 11%;
   color: white;
 }
 .list_link_button {
   background-color: rgb(27, 160, 129);
-  margin: 20px 5px;
+  border-radius: 11%;
 }
 .container {
   background-color: white;
   width: 700px;
   height: 330px;
-  /* text-align: center; */
   position: relative;
 }
 .form_container {
   position: absolute;
-  /* text-align: center; */
   margin: auto;
   width: 100%;
 }
@@ -182,8 +182,10 @@ const rates = [1, 2, 3, 4, 5]
   margin-left: 20%;
 }
 .form_frame label {
-  /* font-size: large; */
   font-weight: bold;
   margin-right: 10px;
+}
+input {
+  outline: black;
 }
 </style>
