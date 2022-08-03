@@ -138,12 +138,12 @@ const rates = [1, 2, 3, 4, 5]
       </div>
       <div class="form_button mt-5">
         <v-btn
-          class="add_button my-20 mx-5 pa-1"
+          class="add_button my-20 mx-5 pa-2"
           @click="addTodo"
         >
           add OK?
         </v-btn>
-        <v-btn class="list_link_button my-20 mx-5 pa-1">
+        <v-btn class="list_link_button my-20 mx-5 pa-2">
           <router-link
             to="/list"
             style="color: white"
@@ -159,12 +159,12 @@ const rates = [1, 2, 3, 4, 5]
 <style scoped>
 .add_button {
   background-color: rgb(16, 87, 38);
-  border-radius: 11%;
+  border-radius: 5px;
   color: white;
 }
 .list_link_button {
   background-color: rgb(27, 160, 129);
-  border-radius: 11%;
+  border-radius: 5px;
 }
 .container {
   background-color: white;

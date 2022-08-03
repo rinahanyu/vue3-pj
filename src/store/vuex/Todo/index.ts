@@ -37,6 +37,14 @@ const defaultTodos = [
       importance: 3,
   }
 ]
+const emptyTodo = {
+  id: 0,
+  title: '!',
+  description: '',
+  limitDate: null,
+  emergency: 0,
+  importance: 0,
+}
 const now_state = localStorage.getItem('list')
 const last_id = localStorage.getItem('last_id')
 console.log(now_state)
@@ -48,7 +56,11 @@ const state = {
   // id生成時のインクリメント用（削除して歯抜けになっても対応できるように）
   id_increment: !last_id
   ? ref<number>(0)
-  : ref<number>(JSON.parse(last_id))
+  : ref<number>(JSON.parse(last_id)),
+  // edit
+  show_dialog: ref<boolean>(false),
+  editTodo: ref<Todo>(emptyTodo),
+  editIndex: ref<number | null>(null)
 }
 
 const setList = (todos: Array[], last_id?: number) => {
@@ -68,6 +80,24 @@ const mutations = {
     console.log(index)
     state.todos.splice(index, 1)
     setList(state.todos)
+  },
+  edit (state, index: number) {
+    // state.todos.
+    state.editTodo = state.todos[index]
+    state.editIndex = index
+    console.log(state.editTodo)
+    state.show_dialog = true
+  },
+  update (state, editTodo: Todo) {
+    console.log('ここは')
+    state.todos[state.editIndex] = editTodo
+    console.log('---------')
+    console.log(state.todos)
+    // TODO localStrageにうまく入らない
+    setList(state.todos)
+    // 初期値に戻す
+    state.editTodo = emptyTodo
+    state.editIndex = null
   }
 }
 
@@ -84,6 +114,22 @@ const actions = {
     console.log(deleteParam)
     if (await beforeDeleteValidationMethod(deleteParam.index, deleteParam.title)) {
       commit('delete', deleteParam.index)
+      return true
+    } else {
+      return false
+    }
+  },
+  edit ({ commit }, index: number) {
+    if (index < 0) {
+      return false
+    } else {
+      commit('edit', index)
+      return true
+    }
+  },
+  async update ({ commit }) {
+    if (await beforeAddValidationMethod(editTodo)) {
+      commit('update', editTodo)
       return true
     } else {
       return false

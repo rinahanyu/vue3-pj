@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TodoCard from '../organisms/TodoCard.vue'
+import EditDialog from '../organisms/EditDialog.vue';
 // ------provider/injectionでの場合------
 // import { SetTodoKey } from '../../store/Key'
 import { ref } from 'vue'
@@ -39,6 +40,14 @@ const sortBy = () => {
   }
 }
 
+// TODO: storeから通常のrefで受け渡しするように変更する
+// const show_dialog = ref<boolean>(false)
+// const editTodo = ref<Todo>(emptyTodo)
+// const openDialog = (param: Todo) => {
+//   show_dialog.value = true
+//   editTodo.value = editTodo
+// }
+
 // const localState = localStorage.getItem('list')
 // const changeLocalState: Array[] = localState
 //   ? Object.values(JSON.parse(localState))
@@ -67,6 +76,9 @@ const sortBy = () => {
         :limit-date="todo.limitDate"
       />
     </div>
+    <EditDialog v-show="store.state.show_dialog"></EditDialog>
+    <!-- // TODO: storeから通常のrefで受け渡しするように変更する -->
+    <!-- <EditDialog v-show="show_dialog" :editTodo="editTodo"></EditDialog> -->
   </div>
   <div class="mt-8">
     <v-btn class="home_link_button my-5 mx-5 pa-2">
@@ -90,7 +102,7 @@ const sortBy = () => {
 .home_link_button {
   background-color: rgb(27, 160, 129);
   color: white !important;
-  border-radius: 11%;
+  border-radius: 10px;
 }
 #sort_drop {
   width: 150px;
