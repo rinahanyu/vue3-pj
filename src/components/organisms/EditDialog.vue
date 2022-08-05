@@ -15,12 +15,12 @@ const store = useStore()
 // const editImportance = ref<number>(0)
 const rates = [1, 2, 3, 4, 5]
 
-const update = (editTodo: Todo) => {
+const update = () => {
   if (false) {
     alert('必要事項が入力されていません。入力内容を再度確認してください。')
     return
   }
-  store.dispatch('update').then((response: boolean) => {
+  store.dispatch('update', store.state.editTodo).then((response: boolean) => {
     if (response) {
       alert('更新に成功しました')
       // // 初期値に全て戻す
@@ -29,6 +29,7 @@ const update = (editTodo: Todo) => {
       //   editLimitDate.value = undefined
       //   editEmergency.value = 0
       //   editImportance.value = 0
+      store.state.show_dialog = false
     } else {
       alert('更新に失敗しました。')
     }
@@ -100,7 +101,7 @@ const update = (editTodo: Todo) => {
         </div>
       </div>
       <div class="edit_button mt-5">
-        <v-btn @click="store.state.show_dialog = false" class="update_btn"> update </v-btn>
+        <v-btn @click="update" class="update_btn"> update </v-btn>
         <v-btn @click="store.state.show_dialog = false" class="cancel_btn"> cancel </v-btn>
       </div>
     </div>

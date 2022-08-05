@@ -77,7 +77,6 @@ const mutations = {
     setList(state.todos, newTodo.id)
   },
   delete (state, index: number) {
-    console.log(index)
     state.todos.splice(index, 1)
     setList(state.todos)
   },
@@ -85,14 +84,10 @@ const mutations = {
     // state.todos.
     state.editTodo = state.todos[index]
     state.editIndex = index
-    console.log(state.editTodo)
     state.show_dialog = true
   },
   update (state, editTodo: Todo) {
-    console.log('ここは')
     state.todos[state.editIndex] = editTodo
-    console.log('---------')
-    console.log(state.todos)
     // TODO localStrageにうまく入らない
     setList(state.todos)
     // 初期値に戻す
@@ -111,7 +106,6 @@ const actions = {
     }
   },
   async delete ({ commit }, deleteParam: deleteParam) {
-    console.log(deleteParam)
     if (await beforeDeleteValidationMethod(deleteParam.index, deleteParam.title)) {
       commit('delete', deleteParam.index)
       return true
@@ -127,7 +121,7 @@ const actions = {
       return true
     }
   },
-  async update ({ commit }) {
+  async update ({ commit }, editTodo: Todo) {
     if (await beforeAddValidationMethod(editTodo)) {
       commit('update', editTodo)
       return true
