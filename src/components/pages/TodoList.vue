@@ -3,7 +3,7 @@ import TodoCard from '../organisms/TodoCard.vue'
 import EditDialog from '../organisms/EditDialog.vue';
 // ------provider/injectionでの場合------
 // import { SetTodoKey } from '../../store/Key'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 // const store = inject(SetTodoKey)
 // if (!store) {
 //   throw new Error('store is not defined')
@@ -40,18 +40,14 @@ const sortBy = () => {
   }
 }
 
-// TODO: storeから通常のrefで受け渡しするように変更する
-// const show_dialog = ref<boolean>(false)
-// const editTodo = ref<Todo>(emptyTodo)
-// const openDialog = (param: Todo) => {
-//   show_dialog.value = true
-//   editTodo.value = editTodo
-// }
-
-// const localState = localStorage.getItem('list')
-// const changeLocalState: Array[] = localState
-//   ? Object.values(JSON.parse(localState))
-//   : []
+// editダイアログ用
+import { Todo } from '../../store/vuex/types'
+const show_dialog = ref<boolean>(false)
+const editIndex = ref<number>(0)
+const openDialog = (index: number) => {
+  editIndex.value = index
+  show_dialog.value = true
+}
 </script>
 
 <template>
@@ -74,11 +70,10 @@ const sortBy = () => {
         :index="index"
         :title="todo.title"
         :limit-date="todo.limitDate"
+        @show_dialog="openDialog(index)"
       />
     </div>
-    <EditDialog v-show="store.state.show_dialog"></EditDialog>
-    <!-- // TODO: storeから通常のrefで受け渡しするように変更する -->
-    <!-- <EditDialog v-show="show_dialog" :editTodo="editTodo"></EditDialog> -->
+    <EditDialog v-show="show_dialog" :editIndex="editIndex" @close_dialog="show_dialog = false"></EditDialog>
   </div>
   <div class="mt-8">
     <v-btn class="home_link_button my-5 mx-5 pa-2">

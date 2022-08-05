@@ -15,7 +15,12 @@ export interface Todo {
   importance: number
 }
 
-export interface deleteParam {
+export interface deleteParamType {
   index: number
   title: string
+}
+
+export interface editDialogParamType {
+  editIndex: number
+  editTodo: Todo
 }

@@ -1,35 +1,48 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { Todo } from '../../store/vuex/types'
-const store = useStore()
+const props = defineProps<{
+  editIndex: number
+}>()
+const emits = defineEmits(['close_dialog'])
 
-// TODO: storeから通常のrefで受け渡しするように変更する
-// defineProps<{
-//   editTodo: Todo
-// }>()
-// const editTitle = ref<string>(store.state.editTodo.title)
-// const editDescription = ref<string>('')
-// const editLimitDate = ref<Date>()
-// const editEmergency = ref<number>(0)
-// const editImportance = ref<number>(0)
+const store = useStore()
+const emptyTodo = {
+  id: 0,
+  title: '!',
+  description: '',
+  limitDate: null,
+  emergency: 0,
+  importance: 0,
+}
+
+const editTodo = ref<Todo>(emptyTodo)
 const rates = [1, 2, 3, 4, 5]
 
+// 編集画面表示の際に、propsの値を表示させるため、computedで再計算させる
+const setEditTodo = computed(() => {
+  editTodo.value = store.state.todos[props.editIndex]
+  return editTodo
+})
+
 const update = () => {
-  if (false) {
+  if (
+    editTodo.value.title === '' ||
+    editTodo.value.description === '' ||
+    editTodo.value.limitDate === null ||
+    editTodo.value.emergency === 0 ||
+    editTodo.value.importance === 0
+  ) {
     alert('必要事項が入力されていません。入力内容を再度確認してください。')
     return
   }
-  store.dispatch('update', store.state.editTodo).then((response: boolean) => {
+  const editIndex = props.editIndex
+  store.dispatch('update', { editIndex, editTodo }).then((response: boolean) => {
     if (response) {
       alert('更新に成功しました')
-      // // 初期値に全て戻す
-      //   editTitle.value = ''
-      //   editDescription.value = ''
-      //   editLimitDate.value = undefined
-      //   editEmergency.value = 0
-      //   editImportance.value = 0
-      store.state.show_dialog = false
+      // ダイアログを閉じる(editTodoについては、ダイアログを開く時に毎回computedで取得しているので、初期化の必要なし)
+      emits('close_dialog')
     } else {
       alert('更新に失敗しました。')
     }
@@ -45,7 +58,7 @@ const update = () => {
         <div class="edit_form_frame">
           <label for="title">title</label>
           <input
-            v-model="store.state.editTodo.title"
+            v-model="setEditTodo.value.title"
             name="title"
             type="text"
             style="outline: solid 1px gray; background-color: white;"
@@ -54,7 +67,7 @@ const update = () => {
         <div class="edit_form_frame">
           <label for="description">description</label>
           <input
-            v-model="store.state.editTodo.description"
+            v-model="setEditTodo.value.description"
             name="description"
             type="text"
             style="outline: solid 1px gray; background-color: white;"
@@ -63,7 +76,7 @@ const update = () => {
         <div class="edit_form_frame">
           <label for="limitDate">limitDate</label>
           <input
-            v-model="store.state.editTodo.limitDate"
+            v-model="setEditTodo.value.limitDate"
             name="limitDate"
             type="date"
             style="outline: solid 1px gray; background-color: white;"
@@ -76,7 +89,7 @@ const update = () => {
             :key="rate"
           >
             <input
-              v-model="store.state.editTodo.emergency"
+              v-model="setEditTodo.value.emergency"
               name="emergency"
               type="radio"
               :value="rate"
@@ -91,7 +104,7 @@ const update = () => {
             :key="rate"
           >
             <input
-              v-model="store.state.editTodo.importance"
+              v-model="setEditTodo.value.importance"
               name="importance"
               type="radio"
               :value="rate"
@@ -102,7 +115,7 @@ const update = () => {
       </div>
       <div class="edit_button mt-5">
         <v-btn @click="update" class="update_btn"> update </v-btn>
-        <v-btn @click="store.state.show_dialog = false" class="cancel_btn"> cancel </v-btn>
+        <v-btn @click="$emit('close_dialog')" class="cancel_btn"> cancel </v-btn>
       </div>
     </div>
   </div>

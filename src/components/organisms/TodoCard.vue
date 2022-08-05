@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStore } from 'vuex'
-import EditDialog from './EditDialog.vue';
 import { Todo } from '../../store/vuex/types'
 // import { defineProps } from 'vue'; setup内で利用できるコンパイラマクロのためimport不要
 defineProps<{
@@ -18,31 +17,6 @@ const deleteTodo = (index: number, title: string) => {
   }
   store.dispatch('delete', { index, title })
 }
-
-// edit
-// TODO: storeから通常のrefで受け渡しするように変更する
-// const emptyTodo = {
-//   id: 0,
-//   title: '!',
-//   description: '',
-//   limitDate: null,
-//   emergency: 0,
-//   importance: 0,
-// }
-// const editTodo = ref<Todo>(emptyTodo)
-// const show_dialog = ref<boolean>(false)
-// const emits = defineEmits<{
-//   (e: 'openDialog', editTodo: Todo): void
-// }>()
-const openDialog = (index: number) => {
-  alert('edit ok?')
-  console.log(index)
-  store.dispatch('edit', index)
-  // TODO: storeから通常のrefで受け渡しするように変更する
-  // editTodo.value = store.state.todos[index]
-  // show_dialog.value = true
-  // emits('openDialog', editTodo.value)
-}
 </script>
 
 <template>
@@ -52,7 +26,7 @@ const openDialog = (index: number) => {
       <span>{{ limitDate }}</span>
       <v-btn 
         class="edit_btn pa-1"
-        @click="openDialog(index)">
+        @click="$emit('show_dialog')">
         edit!
       </v-btn>
       <v-btn
@@ -63,7 +37,6 @@ const openDialog = (index: number) => {
       </v-btn>
     </div>
   </div>
-  <!-- <EditDialog :todo="editTodo"></EditDialog> -->
 </template>
 
 <style scoped>

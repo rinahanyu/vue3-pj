@@ -1,5 +1,4 @@
-import { Module } from "vuex"
-import { TodoState, RootState, Todo, deleteParam } from "../types"
+import { Todo, deleteParamType, editDialogParamType } from "../types"
 // import actions from './actions'
 // import mutations from "./mutations"
 import { ref, InjectionKey } from "vue"
@@ -7,8 +6,8 @@ import { createStore } from 'vuex'
 
 const now = new Date()
 
-// add裏側処理のバリデーション
-const beforeAddValidationMethod = async(newTodo: Todo) => {
+// add/update裏側処理のバリデーション
+const beforeAddUpdateValidationMethod = async(newTodo: Todo) => {
   if (newTodo.id === 0 || newTodo.title === '' || newTodo.limitDate === null || newTodo.emergency === 0 || newTodo.importance === 0) {
     return false
   } else {
@@ -80,32 +79,22 @@ const mutations = {
     state.todos.splice(index, 1)
     setList(state.todos)
   },
-  edit (state, index: number) {
-    // state.todos.
-    state.editTodo = state.todos[index]
-    state.editIndex = index
-    state.show_dialog = true
-  },
-  update (state, editTodo: Todo) {
-    state.todos[state.editIndex] = editTodo
-    // TODO localStrageにうまく入らない
+  update (state, editDialogParam: editDialogParamType) {
+    state.todos[editDialogParam.editIndex] = editDialogParam.editTodo.value
     setList(state.todos)
-    // 初期値に戻す
-    state.editTodo = emptyTodo
-    state.editIndex = null
   }
 }
 
 const actions = {
   async add ({ commit }, newTodo: Todo) {
-    if (await beforeAddValidationMethod(newTodo)) {
+    if (await beforeAddUpdateValidationMethod(newTodo)) {
       commit('add', newTodo)
       return true
     } else {
       return false
     }
   },
-  async delete ({ commit }, deleteParam: deleteParam) {
+  async delete ({ commit }, deleteParam: deleteParamType) {
     if (await beforeDeleteValidationMethod(deleteParam.index, deleteParam.title)) {
       commit('delete', deleteParam.index)
       return true
@@ -113,17 +102,9 @@ const actions = {
       return false
     }
   },
-  edit ({ commit }, index: number) {
-    if (index < 0) {
-      return false
-    } else {
-      commit('edit', index)
-      return true
-    }
-  },
-  async update ({ commit }, editTodo: Todo) {
-    if (await beforeAddValidationMethod(editTodo)) {
-      commit('update', editTodo)
+  async update ({ commit }, editDialogParam: editDialogParamType) {
+    if (await beforeAddUpdateValidationMethod(editDialogParam.editTodo)) {
+      commit('update', editDialogParam)
       return true
     } else {
       return false
