@@ -151,6 +151,14 @@ const rates = [1, 2, 3, 4, 5]
             go list?
           </router-link>
         </v-btn>
+        <v-btn class="chart_link_button my-20 mx-5 pa-2">
+          <router-link
+            to="/chart"
+            style="color: white"
+          >
+            go chart?
+          </router-link>
+        </v-btn>
       </div>
     </div>
   </div>
@@ -164,6 +172,10 @@ const rates = [1, 2, 3, 4, 5]
 }
 .list_link_button {
   background-color: rgb(27, 160, 129);
+  border-radius: 5px;
+}
+.chart_link_button {
+  background-color: rgba(214, 206, 51, 0.935);
   border-radius: 5px;
 }
 .container {
