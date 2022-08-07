@@ -24,3 +24,13 @@ export interface editDialogParamType {
   editIndex: number
   editTodo: Todo
 }
+
+export interface chartDataListType {
+  label: string
+  data:  {
+    x: number;
+    y: number;
+  }[];
+  backgroundColor: string
+  pointRadius: number
+}

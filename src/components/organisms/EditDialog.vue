@@ -18,7 +18,7 @@ const emptyTodo = {
 }
 
 const editTodo = ref<Todo>(emptyTodo)
-const rates = [1, 2, 3, 4, 5]
+const rates = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 // 編集画面表示の際に、propsの値を表示させるため、computedで再計算させる
 const setEditTodo = computed(() => {
@@ -143,7 +143,7 @@ const update = () => {
   height: 300px;
 }
 .edit_form_frame {
-  width: 60%;
+  width: 70%;
   margin-left: 20%;
   margin-bottom: 5px;
 }

@@ -1,68 +1,121 @@
 <script setup lang="ts">
+import { computed } from '@vue/runtime-core';
 import { Chart, ChartData, registerables, ChartOptions } from 'chart.js'
 import { ScatterChart } from 'vue-chart-3'
+import { useStore } from 'vuex'
+import { Todo, chartDataListType } from '../../store/vuex/types'
 
-Chart.register(...registerables)
+const store = useStore()
+// カラーバリエーション（チャートデータ表示用）
+const colorValiation = [
+   'red', 'orange', 'yellow', 'aqua', 'blue', 'navy', 'green', 'teal', 'black', 'purple'
+]
 
-const scatterChart: ChartData<"scatter"> = {
-  // TODO: ①データをvuexから取得するように変更
-  datasets: [
-    {
-      label: '1組',
-      data: [{x:90, y:82},{x:39, y:45},{x:63, y:65},{x:83, y:75},{x:83, y:95}],
-      backgroundColor: 'RGBA(225,95,150, 1)',
-    }, 
-    {
-      label: '2組',
-      data: [{x:-97, y:-92},{x:63, y:70},{x:48, y:52},{x:83, y:79},{x:66, y:74}],
-      backgroundColor: 'RGBA(115,255,25, 1)',
+// データ中央値
+const dataAverage = 5
+// グリッド線の配色
+const gridBlack = 'rgb(201, 203, 207)'
+const gridGreen = 'rgb(75, 192, 192)'
+// グリッド線の太さ
+const gridWidthDefault = 1
+const gridWidthBold = 3
+
+// チャート表示用のデータ生成
+const setChartData = computed(() => {
+  const todos = store.state.todos
+  let chartDataList: chartDataListType[] = []
+  todos.map((t: Todo, index: number) => {
+    let label = t.title
+    let data = [{
+      x: t.emergency,
+      y: t.importance
+    }]
+    let chartData = {
+      label: label,
+      data: data,
+      backgroundColor: colorValiation[index],
+      pointRadius: 6
     }
-  ],  
+    chartDataList.push(chartData)
+  })
+  return chartDataList
+})
+
+// チャートデータ設定
+Chart.register(...registerables)
+const scatterChart: ChartData<"scatter"> = {
+  datasets: setChartData.value
 };
 
-// TODO: ②optionはデータセットができたら対応
-// const options: ChartOptions<"scatter"> = {
-//   title: {
-//     display: true,
-//     text: '試験成績'
-//   },
-//   scales: {
-//     xAxes: [{
-//       scaleLabel: {
-//         display: true,
-//         labelString: '英語'
-//       },
-//       ticks: {
-//         suggestedMin: 0,
-//         suggestedMax: 100,
-//         stepSize: 10,
-//         callback: function(value, index, values){
-//           return  value +  '点'
-//         }
-//       }
-//     }],
-//     yAxes: [{
-//       scaleLabel: {
-//         display: true,
-//         labelString: '数学'
-//       },
-//       ticks: {
-//         suggestedMax: 100,
-//         suggestedMin: 0,
-//         stepSize: 10,
-//         callback: function(value, index, values){
-//           return  value +  '点'
-//         }
-//       }
-//     }]
-//   }
-// }
-
+// チャートオプション設定
+const options: ChartOptions<"scatter"> = {
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Todo Chart'
+    }
+  },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: 'emergency'
+      },
+      suggestedMin: 1,
+      suggestedMax: 9,
+      grid: {
+        drawBorder: false,
+        color: function ( context ) {
+          if(context.tick.value === dataAverage) {
+            return gridGreen
+          } else {
+            return gridBlack
+          }
+        },
+        lineWidth: function ( context ) {
+          if(context.tick.value === dataAverage) {
+            return gridWidthBold
+          } else {
+            return gridWidthDefault
+          }
+        }
+      }
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'importance'
+      },
+      suggestedMin: 1,
+      suggestedMax: 9,
+      grid: {
+        drawBorder: false,
+        color: function ( context ) {
+          if(context.tick.value === dataAverage) {
+            return gridGreen
+          } else {
+            return gridBlack
+          }
+        },
+        lineWidth: function ( context ) {
+          if(context.tick.value === dataAverage) {
+            return gridWidthBold
+          } else {
+            return gridWidthDefault
+          }
+        }
+      }
+    },
+  }
+}
 </script>
 
 <template>
   <div class="container mt-16">
-    <h1>Todo Chart</h1>
+    <h1>Chart</h1>
     <div class="chart">
 <ScatterChart :chartData="scatterChart"  :options="options" />
     </div>
@@ -83,7 +136,7 @@ const scatterChart: ChartData<"scatter"> = {
 .container {
   background-color: white;
   width: 700px;
-  height: 400px;
+  height: 450px;
   position: relative;
 }
 .home_link_button {
