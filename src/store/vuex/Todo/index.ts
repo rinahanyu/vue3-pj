@@ -112,8 +112,15 @@ const actions = {
   }
 }
 
+const getters = {
+  setTodos (state) {
+    return state.todos
+  }
+}
+
 export const store = createStore({
   state,
   actions,
-  mutations
+  mutations,
+  getters
 })

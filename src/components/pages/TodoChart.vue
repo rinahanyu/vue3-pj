@@ -4,6 +4,7 @@ import { Chart, ChartData, registerables, ChartOptions } from 'chart.js'
 import { ScatterChart } from 'vue-chart-3'
 import { useStore } from 'vuex'
 import { Todo, chartDataListType } from '../../store/vuex/types'
+import { ref, reactive } from 'vue'
 
 const store = useStore()
 // カラーバリエーション（チャートデータ表示用）
@@ -22,7 +23,7 @@ const gridWidthBold = 3
 
 // チャート表示用のデータ生成
 const setChartData = computed(() => {
-  const todos = store.state.todos
+  const todos = reactive<Todo[]>(store.getters.setTodos)
   let chartDataList: chartDataListType[] = []
   todos.map((t: Todo, index: number) => {
     let label = t.title
@@ -117,7 +118,7 @@ const options: ChartOptions<"scatter"> = {
   <div class="container mt-16">
     <h1>Chart</h1>
     <div class="chart">
-<ScatterChart :chartData="scatterChart"  :options="options" />
+<ScatterChart :chartData="scatterChart" :options="options" />
     </div>
     <div class="mt-8">
     <v-btn class="home_link_button my-5 mx-5 pa-2">
